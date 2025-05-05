@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wear Prediction Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .cycles-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .cycles-row label {
+      font-weight: bold;
+      width: 60px;
+    }
+    .cycles-row input[type="text"] {
+      width: 100px;
+      margin-left: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+    }
+    .cycles-note {
+      margin-left: 10px;
+      font-size: 0.85em;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead tr {
+      background-color: #f4f4f4;
+    }
+    th, td {
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: 100px;
+      margin: 0 5px 5px 0;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .results, .error {
+      margin-top: 20px;
+      border-radius: 5px;
+      text-align: center;
+      padding: 15px;
+    }
+    .results {
+      background-color: #e6ffe6;
+      border: 1px solid #c3e6c3;
+      color: #155724;
+    }
+    .error {
+      background-color: #ffe6e6;
+      border: 1px solid #e6c3c3;
+      color: #721c24;
+    }
+    button {
+      display: inline-block;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .top-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wear Prediction Interface</h1>
+  <div class="container">
+    <!-- 顶部按钮组：Predict 主页面 + About -->
+    <div class="top-buttons">
+      <!-- About 按钮，点击跳转到 /about -->
+      <button type="button" onclick="goAbout()">About</button>
+    </div>
+
+    <form method="POST">
+      <!-- Cycles Input -->
+      <div class="cycles-row">
+        <label for="cycles">Cycles:</label>
+        <input type="text" id="cycles" name="cycles" value="{{ cycles|default('100') }}">
+        <span class="cycles-note">(If left blank, default is 100.)</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Variable</th>
+            <th style="width: 20%;">Real</th>
+            <th style="width: 25%;">Range / Unit</th>
+            <th style="width: 20%;">Norm</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for factor in factors %}
+          <tr>
+            <!-- 列1：变量名 -->
+            <td>{{ factor }}</td>
+
+            <!-- 列2：Real输入框 -->
+            <td>
+              <input type="text"
+                     id="{{ factor }}_real"
+                     name="{{ factor }}_real"
+                     placeholder="Real"
+                     value="{{ user_inputs[factor]['real'] }}"
+                     oninput="realToNorm('{{ factor }}')">
+            </td>
+
+            <!-- 列3：Range / Unit -->
+            <td>
+              {{ factor_ranges[factor].min }} ~ {{ factor_ranges[factor].max }}
+              {{ factor_ranges[factor].unit }}
+            </td>
+
+            <!-- 列4：Norm输入框 -->
+            <td>
+              <input type="text"
+                     id="{{ factor }}_norm"
+                     name="{{ factor }}_norm"
+                     placeholder="Norm"
+                     value="{{ user_inputs[factor]['norm'] }}"
+                     oninput="normToReal('{{ factor }}')">
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if y1 is not none and y2 is not none and y3 is not none %}
+    <div class="results">
+      <h2>Prediction Results</h2>
+      <p><strong>Front Wheel (y1):</strong> {{ y1 }}</p>
+      <p><strong>Rear Wheel (y2):</strong> {{ y2 }}</p>
+      <p><strong>Rail Wear (y3):</strong> {{ y3 }}</p>
+    </div>
+    {% elif error %}
+    <div class="error">
+      <h2>Error</h2>
+      <p>{{ error }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    // JS函数: 跳转到 /about
+    function goAbout() {
+      window.location.href = "/about";
+    }
+
+    // factorRanges: from the backend
+    const factorRanges = {
+      {% for factor in factors %}
+      "{{ factor }}": {
+        "min": {{ factor_ranges[factor].min }},
+        "max": {{ factor_ranges[factor].max }}
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    };
+
+    // 当用户修改“实际值” => 计算归一化值
+    function realToNorm(factor) {
+      let realInput = document.getElementById(factor + "_real");
+      let normInput = document.getElementById(factor + "_norm");
+
+      let realVal = parseFloat(realInput.value);
+      if (isNaN(realVal)) {
+        normInput.value = "";
+        return;
+      }
+      let minVal = factorRanges[factor].min;
+      let maxVal = factorRanges[factor].max;
+      let range = maxVal - minVal;
+
+      let normVal = (realVal - minVal) / range;
+      if (normVal < 0) normVal = 0;
+      if (normVal > 1) normVal = 1;
+
+      normInput.value = normVal.toFixed(4);
+    }
+
+    // 当用户修改“归一化值” => 计算实际值
+    function normToReal(factor) {
+      let normInput = document.getElementById(factor + "_norm");
+      let realInput = document.getElementById(factor + "_real");
+
+      let normVal = parseFloat(normInput.value);
+      if (isNaN(normVal)) {
+        realInput.value = "";
+        return;
+      }
+      if (normVal < 0) normVal = 0;
+      if (normVal > 1) normVal = 1;
+
+      let minVal = factorRanges[factor].min;
+      let maxVal = factorRanges[factor].max;
+      let realVal = minVal + normVal * (maxVal - minVal);
+
+      realInput.value = realVal.toFixed(4);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

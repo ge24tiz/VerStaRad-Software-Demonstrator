@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Wear Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .back-button {
+      display: block;
+      margin: 0 auto;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+    }
+    .back-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>About This Wear Prediction Project</h1>
+    <p>
+      This page provides an overview of the project, including the simulation process,
+      the approach for data preprocessing (such as normalization), and how the final
+      model is trained and used to predict front wheel, rear wheel, and rail wear.
+    </p>
+    <p>
+      <strong>Simulation Flow:</strong><br>
+      1. Data Collection: Mast, Wheel, and other structural parameters are measured.<br>
+      2. Normalization: Each parameter is scaled into [0,1] range using min/max.<br>
+      3. Model Training: SVM, XGBoost, etc. on labeled wear data.<br>
+      4. Prediction: During usage, we input real or norm values to compute wear results.
+    </p>
+    <p>
+      In the main page, you can enter real or normalized parameter values along with
+      the 'cycles' to see how much the model predicts the wear might be. If cycles
+      is a multiple of 100, the wear predictions are scaled proportionally.
+    </p>
+
+    <button class="back-button" onclick="window.location.href='/'">Back to Home</button>
+  </div>
+</body>
+</html>
