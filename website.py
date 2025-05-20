@@ -4,20 +4,20 @@ from joblib import load
 
 app = Flask(__name__)
 
-# 1. 加载模型及 scaler
+# 1. load trained prediction models and scaler
 svr_y1_model = load("models/svr_y1_model.joblib")
 svr_y2_model = load("models/svr_y2_model.joblib")
 xgb_y3_model = load("models/xgb_y3_model.joblib")
 scaler = load("models/scaler.joblib")
 
-# 2. 定义输入变量
+# 2. define input parameters
 factors = [
     "MastHeight", "MastLength", "MastWallThickness1", "MastWidth", "MastWallThickness2",
     "MastAddMass", "MastCGX", "TraverseMass", "TraverseCGX", "WheelDistance", "WheelDiameter",
     "Hardness", "LiftMass", "WheelA", "WheelV", "WheelSlipTime", "LiftA"
 ]
 
-# 3. 每个变量的 (min, max, unit)
+# 3. value range of each input parameter [min, max, unit]
 factor_ranges = {
     "MastHeight":         {"min": 8,       "max": 45,    "unit": "m"},
     "MastLength":         {"min": 0.8,     "max": 1.2,   "unit": "m"},
@@ -40,7 +40,7 @@ factor_ranges = {
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    """主页面路由，包含Cycles+Real+Norm的预测功能"""
+    """main page route includes prediction of cycles+Real+Norm"""
     user_inputs = {factor: {"real": "", "norm": ""} for factor in factors}
     cycles_input = "100"
     y1 = y2 = y3 = None
@@ -48,33 +48,33 @@ def home():
 
     if request.method == 'POST':
         try:
-            # 读取cycles
+            # read cycles
             cycles_str = request.form.get("cycles", "100").strip()
             if cycles_str == "":
                 cycles_str = "100"
             cycles_val = float(cycles_str)
 
-            # 收集 norm
+            # collect norm
             inputs_norm = []
             for factor in factors:
                 norm_str = request.form.get(f"{factor}_norm", "").strip()
                 if norm_str == "":
-                    norm_str = "0"  # 空 => 0
+                    norm_str = "0"  # empty => 0
                 val_norm = float(norm_str)
                 inputs_norm.append(val_norm)
 
-                # 回显real/norm
+                # echo real/norm
                 real_str = request.form.get(f"{factor}_real", "")
                 user_inputs[factor]["real"] = real_str
                 user_inputs[factor]["norm"] = norm_str
 
-            # 预测
+            # predict
             input_array = np.array(inputs_norm).reshape(1, -1)
             y1 = svr_y1_model.predict(input_array)[0]
             y2 = svr_y2_model.predict(input_array)[0]
             y3 = xgb_y3_model.predict(input_array)[0]
 
-            # 如果 cycles 是 100倍数 => 放大
+            # if "cycles" is a multiple of 100 => amplify wear result
             if cycles_val % 100 == 0 and cycles_val >= 100:
                 multiple = cycles_val / 100
                 y1 *= multiple
@@ -104,7 +104,7 @@ def home():
 
 @app.route('/about')
 def about():
-    """About页面路由，介绍项目、仿真流程等"""
+    """About page route includes overview of this demonstrator, workflow and parameter description usw."""
     return render_template('about.html')
 
 if __name__ == '__main__':
