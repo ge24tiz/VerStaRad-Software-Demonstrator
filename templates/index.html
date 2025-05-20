@@ -106,9 +106,9 @@
 <body>
   <h1>Wear Prediction Interface</h1>
   <div class="container">
-    <!-- 顶部按钮组：Predict 主页面 + About -->
+    <!-- Top button：Predict home page + About -->
     <div class="top-buttons">
-      <!-- About 按钮，点击跳转到 /about -->
+      <!-- About button: jump to /about -->
       <button type="button" onclick="goAbout()">About</button>
     </div>
 
@@ -132,10 +132,10 @@
         <tbody>
         {% for factor in factors %}
           <tr>
-            <!-- 列1：变量名 -->
+            <!-- column 1：paraneter name -->
             <td>{{ factor }}</td>
 
-            <!-- 列2：Real输入框 -->
+            <!-- column 2：input field for actual values -->
             <td>
               <input type="text"
                      id="{{ factor }}_real"
@@ -145,13 +145,13 @@
                      oninput="realToNorm('{{ factor }}')">
             </td>
 
-            <!-- 列3：Range / Unit -->
+            <!-- column 3：Range / Unit -->
             <td>
               {{ factor_ranges[factor].min }} ~ {{ factor_ranges[factor].max }}
               {{ factor_ranges[factor].unit }}
             </td>
 
-            <!-- 列4：Norm输入框 -->
+            <!-- column 4：input field for normalized values -->
             <td>
               <input type="text"
                      id="{{ factor }}_norm"
@@ -184,7 +184,7 @@
   </div>
 
   <script>
-    // JS函数: 跳转到 /about
+    // JS function: jumo to /about
     function goAbout() {
       window.location.href = "/about";
     }
@@ -199,7 +199,7 @@
       {% endfor %}
     };
 
-    // 当用户修改“实际值” => 计算归一化值
+    // When user modifies the actual values, calculate the corresponding normalized values
     function realToNorm(factor) {
       let realInput = document.getElementById(factor + "_real");
       let normInput = document.getElementById(factor + "_norm");
@@ -220,7 +220,7 @@
       normInput.value = normVal.toFixed(4);
     }
 
-    // 当用户修改“归一化值” => 计算实际值
+    // When user modifies the normalized values, calculate the corresponding actual values
     function normToReal(factor) {
       let normInput = document.getElementById(factor + "_norm");
       let realInput = document.getElementById(factor + "_real");
