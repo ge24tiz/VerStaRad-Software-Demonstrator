@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About Wear Prediction</title>
+  <title>About</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,6 +21,11 @@
       text-align: center;
       color: #333;
       margin-bottom: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 18px;
     }
     p {
       line-height: 1.6;
@@ -45,18 +50,70 @@
 </head>
 <body>
   <div class="container">
-    <h1>About This Wear Prediction Project</h1>
+    <h1>Wheel-Rail Wear Prediction of Stacker Crane</h1>
     <p>
-      This page provides an overview of the project, including the simulation process,
-      the approach for data preprocessing (such as normalization), and how the final
-      model is trained and used to predict front wheel, rear wheel, and rail wear.
+      This VerStaRad software demonstrator is dedicated to providing a one-step online service 
+      for predicting wear behavior of wheel-rail contact system of stacker cranes. By using machine 
+      learning models, users can quickly obtain predicted wear depths for front wheel, rear wheel
+      and rail simply by inputting structural parameters and operational conditions.
     </p>
     <p>
-      <strong>Simulation Flow:</strong><br>
-      1. Data Collection: Mast, Wheel, and other structural parameters are measured.<br>
-      2. Normalization: Each parameter is scaled into [0,1] range using min/max.<br>
-      3. Model Training: SVM, XGBoost, etc. on labeled wear data.<br>
-      4. Prediction: During usage, we input real or norm values to compute wear results.
+      <h2>Problem Statement:</h2><br>
+      The rapid growth of e-commerce and the acceleration of globalization have posed significant
+      challenges to the logistics industry. The increasing volume of goods throughput inevitably 
+      places higher demands on the reliability of warehousing equipment. As one of the core devices
+      in internal logistics, the stacker crane provides automated storage and retrieval operations
+      and is widely used in various types of warehouses. As a rail-guided material handling system, 
+      its overall reliability depends heavily on its wheel-rail contact system.<br>
+      <div style="height: 10px;"></div>
+      In recent years, system failures due to wear have emerged as an urgent issue needing solution.
+      For stacker cranes, higher payloads and increased operating speeds further amplify the dynamic
+      loads on the wheel-rail system, causing severe wear. Wear results in material loss, alters 
+      wheel and rail profiles, and degrades contact conditions. This degradation leads to impact
+      loads and vibrations that adversely affect the performance and lifespan of the entire system.<br>
+      <div style="height: 10px;"></div>
+      Currently, there are no design standards specifically addressing wheel-rail wear for stacker cranes. 
+      As a result, maintenance practices rely on empirical guidelines and manufacturer recommendations,
+      offering little in the way of tailored solutions for individual machines or actual operating conditions. 
+    </p>
+    <p>
+      <h2>Solutions:</h2><br>
+      We achieve efficient and accurate wear prediction through the following workflow:<br>
+      <div style="height: 20px;"></div>
+      <strong> Parameter Identification:</strong><br>
+      <div style="height: 10px;"></div>
+      In collaboration with several stacker crane manufacturers and through in-depth expert interviews, 
+      we identified the key factors and their valid ranges, that influence wheel-rail wear behavior. These
+      include the design and operating parameters of stacker cranes, and warehouse conditions.<br>
+      <div style="height: 15px;"></div>
+      <strong> Numerical Simulation:</strong><br>
+      <div style="height: 10px;"></div>
+      We developed a parameterized single-mast stacker crane model in the multibody dynamics software
+      Simpack. Using the Hertzian contact theory and the Archard wear model from Simpack Rail module, we 
+      quantitatively compute wear under any specified parameter configuration.<br>
+      <div style="height: 15px;"></div>
+      <strong> Sensitivity Analysis:</strong><br>
+      <div style="height: 10px;"></div>
+      Applying the Morris screening method, we performed a global sensitivity analysis on the parameters
+      identified in step 1. This allowed us to highlight which factors have the most significant impact 
+      on wear behavior.<br>
+      <div style="height: 15px;"></div>
+      <strong> Parameter Sampling:</strong><br>
+      <div style="height: 10px;"></div>
+      We used our developed genetic-Latin hypercube sampling algorithm to generate a uniformly distributed
+      sample plan over the influential parameters. This approach minimized the number of required simulations 
+      while thoroughly covering the parameter space.<br>
+      <div style="height: 15px;"></div>
+      <strong> Simulation Experiments:</strong><br>
+      <div style="height: 10px;"></div>
+      An automated simulation pipeline runs the sample plan from step 4. The results produce a comprehensive
+      dataset for model training.<br>
+      <div style="height: 15px;"></div>
+      <strong> Predictive Models:</strong><br>
+      <div style="height: 10px;"></div>
+      After testing a variety of machine learning algorithms, we selected Support Vector Regression (SVR) for
+      wheel wear and XGBoost for rail wear prediction. In validation tests, the prediction accuracy achieved
+      above 92%. <br>
     </p>
     <p>
       In the main page, you can enter real or normalized parameter values along with
