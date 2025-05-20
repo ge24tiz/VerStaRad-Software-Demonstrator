@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Wear Prediction Interface</title>
+  <title>Wear Prediction</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -123,10 +123,10 @@
       <table>
         <thead>
           <tr>
-            <th style="width: 25%;">Variable</th>
-            <th style="width: 20%;">Real</th>
-            <th style="width: 25%;">Range / Unit</th>
-            <th style="width: 20%;">Norm</th>
+            <th style="width: 25%;">Input parameter</th>
+            <th style="width: 20%;">Real value</th>
+            <th style="width: 25%;">Range/ Unit</th>
+            <th style="width: 20%;">Normalized value</th>
           </tr>
         </thead>
         <tbody>
@@ -171,9 +171,9 @@
     {% if y1 is not none and y2 is not none and y3 is not none %}
     <div class="results">
       <h2>Prediction Results</h2>
-      <p><strong>Front Wheel (y1):</strong> {{ y1 }}</p>
-      <p><strong>Rear Wheel (y2):</strong> {{ y2 }}</p>
-      <p><strong>Rail Wear (y3):</strong> {{ y3 }}</p>
+      <p><strong>Wear Depth on Front Wheel (y1):</strong> {{ y1 }}</p>
+      <p><strong>Wear Depth on Rear Wheel (y2):</strong> {{ y2 }}</p>
+      <p><strong>Wear Depth on Rail (y3):</strong> {{ y3 }}</p>
     </div>
     {% elif error %}
     <div class="error">
