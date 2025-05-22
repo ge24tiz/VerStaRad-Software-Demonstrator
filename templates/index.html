@@ -110,6 +110,7 @@
     <div class="top-buttons">
       <!-- About button: jump to /about -->
       <button type="button" onclick="goAbout()">About</button>
+      <button type="button" onclick="goParams()">Parameter Description</button>
     </div>
 
     <form method="POST">
@@ -187,6 +188,10 @@
     // JS function: jumo to /about
     function goAbout() {
       window.location.href = "/about";
+    }
+      // new add goParams()
+    function goParams() {
+      window.location.href = "/params";
     }
 
     // factorRanges: from the backend

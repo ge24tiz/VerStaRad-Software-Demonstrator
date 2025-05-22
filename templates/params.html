@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 18px;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .back-button {
+      display: block;
+      margin: 0 auto;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+    }
+    .back-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <h1>Description of Input Parameter</h1>
+    <img
+      src="{{ url_for('static', filename='images/parameter_visualisation.png') }}"
+      alt="Parameter Description"
+      style="max-width:100%; height:auto; border:1px solid #ccc; border-radius:4px;"
+    >
+
+    <button class="back-button" onclick="window.location.href='/'">Back to Home</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+/* Header */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+/* Top Buttons */
+.top-buttons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.top-buttons button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 5px;
+}
+.top-buttons button:hover {
+  background-color: #0056b3;
+}
+
+/* Form Inputs */ninput[type="text"],
+input[type="number"] {
+  width: 100px;
+  padding: 5px;
+  margin: 0 5px 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.cycles-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.cycles-row label {
+  font-weight: bold;
+  width: 60px;
+}
+.cycles-note {
+  margin-left: 10px;
+  font-size: 0.85em;
+  color: #666;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+thead tr {
+  background-color: #f4f4f4;
+}
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  font-weight: bold;
+}
+
+/* Buttons */nbutton {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Results & Error */n.results, .error {
+  margin-top: 20px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 15px;
+}
+.results {
+  background-color: #e6ffe6;
+  border: 1px solid #c3e6c3;
+  color: #155724;
+}
+.error {
+  background-color: #ffe6e6;
+  border: 1px solid #e6c3c3;
+  color: #721c24;
+}
+
+/* Image Container */n.image-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

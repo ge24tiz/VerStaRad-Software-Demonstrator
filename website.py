@@ -107,6 +107,12 @@ def about():
     """About page route includes overview of this demonstrator, workflow and parameter description usw."""
     return render_template('about.html')
 
+@app.route('/params')
+def params():
+    """Parameter Description describes how input parameters are defined"""
+    return render_template(
+        'params.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
