@@ -126,7 +126,8 @@ button:hover {
   margin-bottom: 20px;
 }
 .image-container img {
-  max-width: 100%;
+  width: 100%;
+  max-width: none;
   height: auto;
   border: 1px solid #ccc;
   border-radius: 4px;
