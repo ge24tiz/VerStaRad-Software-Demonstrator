@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About</title>
+  <title>Parameter Description</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
   <style>
@@ -51,14 +51,14 @@
   </style>
 </head>
 <body>
-  <div class="image-container">
+  <div class="container">
     <h1>Description of Input Parameter</h1>
-    <img
-      src="{{ url_for('static', filename='images/parameter_visualisation.png') }}"
-      alt="Parameter Description"
-      style="max-width: 550px; width:100%; border:1px solid #ccc; border-radius:4px;"
-    >
-
+    <div class="image-container">
+      <img
+        src="{{ url_for('static', filename='images/parameter_visualisation.png') }}"
+        alt="Parameter Description"
+      >
+    </div>
     <button class="back-button" onclick="window.location.href='/'">Back to Home</button>
   </div>
 </body>
